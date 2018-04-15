@@ -4,9 +4,6 @@ extern crate pkg_config;
 #[cfg(feature="vcpkg")]
 extern crate vcpkg;
 
-use std::path::Path;
-use std::env;
-
 fn main() {
   if !build_pkgconfig() && !build_vcpkg() {
     println!("cargo:rustc-flags=-l tag_c -l tag");
