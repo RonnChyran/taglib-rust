@@ -5,7 +5,6 @@ version = "0.2.0"
 authors = ["Emmanuele Bassi <ebassi@gnome.org>"]
 repository = "https://github.com/ebassi/taglib-rust"
 license = "MIT"
-links = "tag_c"
 build = "build.rs"
 
 [lib]

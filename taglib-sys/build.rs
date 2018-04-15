@@ -8,11 +8,7 @@ use std::path::Path;
 use std::env;
 
 fn main() {
-  if build_vcpkg() {
-
-  } else if !build_pkgconfig() {
-    let dir = env::var("CARGO_MANIFEST_DIR").unwrap();
-    println!("cargo:rustc-link-search=native={}", Path::new(&dir).join("lib").display());
+  if !build_pkgconfig() && !build_vcpkg() {
     println!("cargo:rustc-flags=-l tag_c -l tag");
   }
 }
@@ -45,7 +41,6 @@ fn build_vcpkg() -> bool {
       for metadata in library.cargo_metadata {
         println!("{}", metadata);
       }
-      println!("cargo:rustc-flags=-l tag_c -l tag");
       true
     },
     Err(err) => {
