@@ -22,6 +22,11 @@ cmake = "0.1.30"
 version = "0.3"
 optional = true
 
+[build-dependencies.vcpkg]
+version = "0.2.3"
+optional = true
+
 [features]
 default = []
 use-pkgconfig = ["pkg-config"]
+use-vcpkg = ["vcpkg"]

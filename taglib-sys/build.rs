@@ -1,14 +1,16 @@
 #[cfg(feature="pkg-config")]
 extern crate pkg_config;
 
-extern crate cmake;
+#[cfg(feature="vcpkg")]
+extern crate vcpkg;
 
-use cmake::Config;
 use std::path::Path;
 use std::env;
 
 fn main() {
-  if !build_pkgconfig() {
+  if build_vcpkg() {
+
+  } else if !build_pkgconfig() {
     let dir = env::var("CARGO_MANIFEST_DIR").unwrap();
     println!("cargo:rustc-link-search=native={}", Path::new(&dir).join("lib").display());
     println!("cargo:rustc-flags=-l tag_c -l tag");
@@ -28,3 +30,26 @@ fn build_pkgconfig() -> bool {
   true
 }
 
+#[cfg(not(feature="vcpkg"))]
+fn build_vcpkg() -> bool {
+  false
+}
+
+#[cfg(feature="vcpkg")]
+fn build_vcpkg() -> bool {
+  let config = vcpkg::Config::new()
+      .lib_names("tag_c","tag")
+      .probe("taglib");
+  match config {
+    Ok(library) => {
+      for metadata in library.cargo_metadata {
+        println!("{}", metadata);
+      }
+      println!("cargo:rustc-flags=-l tag_c -l tag");
+      true
+    },
+    Err(err) => {
+      panic!("{}", err);
+    }
+  }
+}

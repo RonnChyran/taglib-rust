@@ -1,3 +1,0 @@
-[submodule "taglib-sys/vendor/taglib"]
-	path = taglib-sys/vendor/taglib
-	url = https://github.com/taglib/taglib
